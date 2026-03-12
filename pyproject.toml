@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Daphne"
+version = "0.1.0"
+description = "Daphne: A powerful library for processing data and preparing it for training neural network models."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Arkonova Daria", email = "daria.arkonova@gmail.com" }]
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.9",
+    "numpy>=2.1",
+    "pandas>=2.2",
+    "psutil>=6.0",
+    "scikit-learn>=1.5",
+    "seaborn>=0.13",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3"]
+
+[project.urls]
+Homepage = "https://github.com/Arkonova/Daphne"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["Daphne*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

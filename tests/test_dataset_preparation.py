@@ -22,7 +22,6 @@ def test_split_data():
     preparator = DatasetPreparator()
     X_train, X_val, X_test, y_train, y_val, y_test = preparator.split_data(df, 'target', test_size=0.2, val_size=0.2)
 
-    # Проверяем, что наборы не пусты
     assert len(X_train) > 0
     assert len(X_val) > 0
     assert len(X_test) > 0

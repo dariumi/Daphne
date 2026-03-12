@@ -14,18 +14,11 @@ def sample_df():
 
 def test_plot_distribution(sample_df):
     evaluator = DatasetEvaluator()
-    # Just testing if no exceptions are raised, plotting doesn't need to be tested.
-    try:
-        evaluator.plot_distribution(sample_df, 'feature1')
-    except ValueError:
-        pytest.fail("plot_distribution() raised ValueError unexpectedly!")
+    evaluator.plot_distribution(sample_df, 'feature1')
 
 def test_check_correlations(sample_df):
     evaluator = DatasetEvaluator()
-    try:
-        evaluator.check_correlations(sample_df)
-    except ValueError:
-        pytest.fail("check_correlations() raised ValueError unexpectedly!")
+    evaluator.check_correlations(sample_df)
 
 def test_calculate_mutual_information(sample_df):
     evaluator = DatasetEvaluator()

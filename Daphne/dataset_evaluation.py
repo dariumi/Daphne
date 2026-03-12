@@ -1,9 +1,7 @@
-# src/dataset_evaluation.py
-
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.metrics import mutual_info_score, confusion_matrix, classification_report
+from sklearn.metrics import mutual_info_score
 
 class DatasetEvaluator:
     """
@@ -42,7 +40,7 @@ class DatasetEvaluator:
             ValueError: If correlation computation or plotting fails.
         """
         try:
-            corr_matrix = df.corr()
+            corr_matrix = df.corr(numeric_only=True)
             sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt='.2f')
             plt.show()
         except Exception as e:

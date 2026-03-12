@@ -52,7 +52,7 @@ class DataProcessor:
             ValueError: If the method is not recognized.
         """
         try:
-            numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
+            numeric_columns = df.select_dtypes(include="number").columns
 
             if method == 'standard':
                 self.scaler = StandardScaler()
@@ -82,19 +82,17 @@ class DataProcessor:
         """
         try:
             if strategy == 'mean':
-                # Применяем иммутацию только к числовым данным
-                numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
+                numeric_columns = df.select_dtypes(include="number").columns
                 self.imputer = SimpleImputer(strategy=strategy)
                 df[numeric_columns] = self.imputer.fit_transform(df[numeric_columns])
             else:
-                # Применяем иммутацию к нечисловым данным
                 self.imputer = SimpleImputer(strategy=strategy)
                 df = pd.DataFrame(self.imputer.fit_transform(df), columns=df.columns)
             return df
         except Exception as e:
             raise ValueError(f"Failed to impute missing data: {e}")
 
-    def encode_categorical_data(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
+    def encode_categorical_data(self, df: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
         """
         Encodes categorical data using one-hot encoding.
 

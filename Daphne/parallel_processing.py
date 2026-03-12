@@ -1,8 +1,8 @@
-# src/parallel_processing.py
+from collections.abc import Callable
+from concurrent.futures import ProcessPoolExecutor
 
 import pandas as pd
-import numpy as np
-from multiprocessing import Pool
+
 
 class ParallelProcessor:
     """
@@ -10,7 +10,12 @@ class ParallelProcessor:
     application of a function to DataFrame partitions in parallel.
     """
 
-    def apply_parallel(self, df: pd.DataFrame, func, num_partitions: int = 4) -> pd.DataFrame:
+    def apply_parallel(
+        self,
+        df: pd.DataFrame,
+        func: Callable[[pd.DataFrame], pd.DataFrame],
+        num_partitions: int = 4,
+    ) -> pd.DataFrame:
         """
         Applies a function to a DataFrame in parallel, splitting the data into partitions.
 
@@ -26,9 +31,11 @@ class ParallelProcessor:
             ValueError: If parallel processing fails.
         """
         try:
-            df_split = np.array_split(df, num_partitions)
-            with Pool(num_partitions) as pool:
-                df_processed = pd.concat(pool.map(func, df_split))
+            chunk_size = max(1, len(df) // num_partitions)
+            df_split = [df.iloc[i:i + chunk_size] for i in range(0, len(df), chunk_size)]
+            with ProcessPoolExecutor(max_workers=num_partitions) as executor:
+                futures = [executor.submit(func, part) for part in df_split]
+                df_processed = pd.concat([f.result() for f in futures])
             return df_processed
         except Exception as e:
             raise ValueError(f"Failed to process data in parallel: {e}")

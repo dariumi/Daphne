@@ -43,7 +43,6 @@ def test_encode_categorical_data():
     })
     processed_df = processor.encode_categorical_data(df, ['cat_a'])
 
-    # Проверяем, что старый столбец был удален и добавлены новые закодированные столбцы
     assert 'cat_a' not in processed_df.columns
     assert 'cat_a_b' in processed_df.columns
 
